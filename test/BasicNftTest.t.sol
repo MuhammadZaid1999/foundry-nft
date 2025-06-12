@@ -11,6 +11,8 @@ contract BasicNFTTest is Test {
     BasicNft public basicNft;
 
     address public USER = makeAddr("user");
+    
+    // "ipfs://bafybeig37ioir76s7mg5oobetncojcm3c3hxasyd4rvid4jqhy4gkaheg4/?filename=0-PUG.json";
     string public constant PUG =
       "ipfs://bafybeiaxstngs3daaf6dfguwnt5gq26w23lr6vugoexo2b73h6omf66rsm";
 
