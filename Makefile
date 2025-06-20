@@ -48,3 +48,9 @@ deploy:
 
 mint:
 	@forge script script/Interactions.s.sol:MintBasicNft ${NETWORK_ARGS}
+
+deploy-manual:
+	@forge script script/DeployManualNft.s.sol:DeployManualNft $(NETWORK_ARGS)	
+
+mint-manual:
+	@forge script script/Interactions.s.sol:MintManualNft ${NETWORK_ARGS}
