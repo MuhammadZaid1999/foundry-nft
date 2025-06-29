@@ -54,3 +54,12 @@ deploy-manual:
 
 mint-manual:
 	@forge script script/Interactions.s.sol:MintManualNft ${NETWORK_ARGS}
+
+deployMood:
+	@forge script script/DeployMoodNft.s.sol:DeployMoodNft $(NETWORK_ARGS)
+
+mintMood:
+	@forge script script/Interactions.s.sol:MintMoodNft ${NETWORK_ARGS}	
+
+flipMood:
+	@forge script script/Interactions.s.sol:FlipMoodNft ${NETWORK_ARGS}	

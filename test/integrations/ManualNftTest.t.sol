@@ -2,13 +2,13 @@
 pragma solidity ^0.8.18;
 
 import {Test} from "forge-std/Test.sol";
-import {BasicNft} from "../src/BasicNft.sol";
-import {DeployBasicNft} from "../script/DeployBasicNft.s.sol";
+import {ManualNft} from "../../src/ManualNft.sol";
+import {DeployManualNft} from "../../script/DeployManualNft.s.sol";
 
-contract BasicNFTTest is Test {
+contract ManualNftTest is Test {
 
-    DeployBasicNft public deployer;
-    BasicNft public basicNft;
+    DeployManualNft public deployer;
+    ManualNft public manualNft;
 
     address public USER = makeAddr("user");
     
@@ -18,13 +18,13 @@ contract BasicNFTTest is Test {
 
 
     function setUp() public {
-      deployer = new DeployBasicNft();
-      basicNft = deployer.run();
+      deployer = new DeployManualNft();
+      manualNft = deployer.deployManualNft("ManualNft", "MT");
     }
 
     function testNameIsCorrect() public view {
-        string memory expectedName = "Doggie";
-        string memory actualName = basicNft.name();
+        string memory expectedName = "ManualNft";
+        string memory actualName = manualNft.name();
 
         assert(
             keccak256(abi.encodePacked(expectedName)) == 
@@ -33,15 +33,15 @@ contract BasicNFTTest is Test {
     }
 
     function testNameIsCorrect1() public view {
-        string memory expectedName = "Doggie";
-        string memory actualName = basicNft.name();
+        string memory expectedName = "ManualNft";
+        string memory actualName = manualNft.name();
 
         assertEq(expectedName, actualName);
     }
 
     function testSymbolIsCorrect() public view {
-        string memory expectedSymbol = "DG";
-        string memory actualSymbol = basicNft.symbol();
+        string memory expectedSymbol = "MT";
+        string memory actualSymbol = manualNft.symbol();
 
         assert(
             keccak256(abi.encodePacked(expectedSymbol)) == 
@@ -51,12 +51,12 @@ contract BasicNFTTest is Test {
 
     function testCanMintAndHaveABalance() public {
         vm.prank(USER);
-        basicNft.mintNFT(PUG);
+        manualNft.mintNFT(PUG);
 
-        assert(basicNft.balanceOf(USER) == 1);
+        assert(manualNft.balanceOf(USER) == 1);
         assert(
             keccak256(abi.encodePacked(PUG)) == 
-            keccak256(abi.encodePacked(basicNft.tokenURI(0)))
+            keccak256(abi.encodePacked(manualNft.tokenURI(0)))
         );
     }
 

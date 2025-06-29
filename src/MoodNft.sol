@@ -41,17 +41,17 @@ contract MoodNft is ERC721 {
         }
 
         // string memory tokenMetadata = string.concat(
-        //     '{"name:"', 
+        //     '{"name":"', 
         //     name(),
-        //     '", description: "An NFT that reflects your mood!", "attributes": [{"trait_type": "Mood", "value": 100}], "image":',
+        //     '", "description": "An NFT that reflects your mood!", "attributes": [{"trait_type": "Mood", "value": 100}], "image":"', 
         //     imageURI,
         //     '"}'
         // );
 
         // string.concat(
-        //     '{"name:"', 
+        //     '{"name":"', 
         //     name(),
-        //     '", description: "An NFT that reflects your mood!", "attributes": [{"trait_type": "Mood", "value": 100}], "image":',
+        //     '", "description": "An NFT that reflects your mood!", "attributes": [{"trait_type": "Mood", "value": 100}], "image":"', 
         //     imageURI,
         //     '"}'
         // );
@@ -64,18 +64,18 @@ contract MoodNft is ERC721 {
         */
 
         // abi.encodePacked(
-        //     '{"name:"', 
+        //     '{"name":"', 
         //     name(),
-        //     '", description: "An NFT that reflects your mood!", "attributes": [{"trait_type": "Mood", "value": 100}], "image":',
+        //     '", "description": "An NFT that reflects your mood!", "attributes": [{"trait_type": "Mood", "value": 100}], "image":"', 
         //     imageURI,
         //     '"}'
         // );
 
         // bytes(
         //     abi.encodePacked(
-        //         '{"name:"', 
+        //         '{"name":"', 
         //         name(),
-        //         '", description: "An NFT that reflects your mood!", "attributes": [{"trait_type": "Mood", "value": 100}], "image":',
+        //         '", "description": "An NFT that reflects your mood!", "attributes": [{"trait_type": "Mood", "value": 100}], "image":"', 
         //         imageURI,
         //         '"}'
         //     )
@@ -87,9 +87,9 @@ contract MoodNft is ERC721 {
 
         // Base64.encode(
         //     abi.encodePacked(
-        //         '{"name:"', 
+        //         '{"name":"', 
         //         name(),
-        //         '", description: "An NFT that reflects your mood!", "attributes": [{"trait_type": "Mood", "value": 100}], "image":',
+        //         '", "description": "An NFT that reflects your mood!", "attributes": [{"trait_type": "Mood", "value": 100}], "image":"', 
         //         imageURI,
         //         '"}'
         //     )
@@ -98,9 +98,9 @@ contract MoodNft is ERC721 {
         // Base64.encode(
         //     bytes(
         //         abi.encodePacked(
-        //             '{"name:"', 
+        //           '{"name":"', 
         //             name(),
-        //             '", description: "An NFT that reflects your mood!", "attributes": [{"trait_type": "Mood", "value": 100}], "image":',
+        //             '", "description": "An NFT that reflects your mood!", "attributes": [{"trait_type": "Mood", "value": 100}], "image":"', 
         //             imageURI,
         //             '"}'
         //         )
@@ -121,9 +121,9 @@ contract MoodNft is ERC721 {
         //         Base64.encode(
         //             bytes(
         //                 abi.encodePacked(
-        //                     '{"name: "',
+        //                    '{"name":"', 
         //                     name(),
-        //                     '", description: "An NFT that reflects your mood!", "attributes": [{"trait_type": "Mood", "value": 100}], "image": ',
+        //                    '", "description": "An NFT that reflects your mood!", "attributes": [{"trait_type": "Mood", "value": 100}], "image":"', 
         //                     imageURI,
         //                     '"}'
         //                 )
@@ -138,16 +138,19 @@ contract MoodNft is ERC721 {
         string memory metadata = Base64.encode(
             bytes(
                 abi.encodePacked(
-                    '{"name:"', 
+                    '{"name":"', 
                     name(),
-                    '", description: "An NFT that reflects your mood!", "attributes": [{"trait_type": "Mood", "value": 100}], "image":',
+                    '", "description": "An NFT that reflects your mood!", "attributes": [{"trait_type": "Mood", "value": 100}], "image":"', 
                     imageURI,
                     '"}'
                 )
             )
         );
 
-        // return string(abi.encodePacked(_baseURI(), metadata));
+        /*
+            ------ we can also use this ------           
+            return string(abi.encodePacked(_baseURI(), metadata));
+        */
         return string.concat(_baseURI(), metadata);
     }
 

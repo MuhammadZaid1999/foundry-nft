@@ -2,7 +2,7 @@
 pragma solidity ^0.8.18;
 
 import { Test, console2 } from "forge-std/Test.sol";
-import { MoodNft } from "../src/MoodNft.sol";
+import { MoodNft } from "../../src/MoodNft.sol";
 
 contract MoodNftTest is Test {
     MoodNft private moodNft;
@@ -19,6 +19,15 @@ contract MoodNftTest is Test {
     function testViewTokenURI() public {
         vm.prank(USER);
         moodNft.mintNft();
+        string memory expectedTokenURI = moodNft.tokenURI(0);
+        console2.log("Expected URI:", expectedTokenURI);
+    }
+
+    function testFlipMood() public {
+        vm.startPrank(USER);
+        moodNft.mintNft();
+        moodNft.flipMood(0);
+        vm.stopPrank();
         string memory expectedTokenURI = moodNft.tokenURI(0);
         console2.log("Expected URI:", expectedTokenURI);
     }
