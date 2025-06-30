@@ -2,8 +2,11 @@
 pragma solidity ^0.8.18;
 import { ERC721 } from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import { Base64 } from "@openzeppelin/contracts/utils/Base64.sol";
+import { Strings } from "@openzeppelin/contracts/utils/Strings.sol";
 
 contract MoodNft is ERC721 {
+    using Strings for uint256;
+
     error MoodNFT__CantFlipMoodIfNotOwner();
 
     string private s_sadSvgImageUri;
@@ -34,10 +37,22 @@ contract MoodNft is ERC721 {
 
     function tokenURI(uint256 tokenId) public view override returns (string memory) {
         string memory imageURI;
+        string memory tokenName;
+        string memory tokenDescription;
+        
+        string memory contractName = name();
+        string memory _tokenId = tokenId.toString();
+
         if(s_tokenIdToMood[tokenId] == Mood.HAPPY) {
             imageURI = s_happySvgImageUri;
+            string memory moodName = " (Happy) #";
+            tokenName = string.concat(contractName, moodName, _tokenId);
+            tokenDescription = "A Happy NFT that reflects your mood!";
         } else {
             imageURI = s_sadSvgImageUri;
+            string memory moodName = " (Sad) #";
+            tokenName = string.concat(contractName, moodName, _tokenId);
+            tokenDescription = "A Sad NFT that reflects your mood!";
         }
 
         // string memory tokenMetadata = string.concat(
@@ -136,14 +151,13 @@ contract MoodNft is ERC721 {
           ------ another way to set final metadata ------ 
         */
         string memory metadata = Base64.encode(
-            bytes(
-                abi.encodePacked(
-                    '{"name":"', 
-                    name(),
-                    '", "description": "An NFT that reflects your mood!", "attributes": [{"trait_type": "Mood", "value": 100}], "image":"', 
-                    imageURI,
-                    '"}'
-                )
+            abi.encodePacked(
+                '{"name":"', 
+                tokenName,
+                '", "description":"', tokenDescription,
+                '", "attributes": [{"trait_type": "Mood", "value": 100}], "image":"', 
+                imageURI,
+                '"}'
             )
         );
 
