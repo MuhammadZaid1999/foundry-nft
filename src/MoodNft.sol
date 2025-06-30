@@ -46,11 +46,19 @@ contract MoodNft is ERC721 {
         if(s_tokenIdToMood[tokenId] == Mood.HAPPY) {
             imageURI = s_happySvgImageUri;
             string memory moodName = " (Happy) #";
+            /*
+                ----- we can also use this -----
+                tokenName = string(abi.encodePacked(contractName, moodName, _tokenId));
+            */
             tokenName = string.concat(contractName, moodName, _tokenId);
             tokenDescription = "A Happy NFT that reflects your mood!";
         } else {
             imageURI = s_sadSvgImageUri;
             string memory moodName = " (Sad) #";
+            /*
+                ----- we can also use this -----
+                tokenName = string(abi.encodePacked(contractName, moodName, _tokenId));
+            */
             tokenName = string.concat(contractName, moodName, _tokenId);
             tokenDescription = "A Sad NFT that reflects your mood!";
         }

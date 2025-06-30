@@ -51,8 +51,7 @@ contract DeployMoodNft is Script {
         /*
             ----- can also use this -----
             return string(abi.encodePacked(baseURL, svgBase64Encoded));
-            return string(abi.encodePacked(baseURL, svgBase64Encoded));
         */
-        return string(abi.encodePacked(baseURL, svgBase64Encoded));
+        return string.concat(baseURL, svgBase64Encoded);
     }
 }
