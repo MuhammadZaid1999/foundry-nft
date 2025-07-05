@@ -60,4 +60,21 @@ contract ManualNftTest is Test {
         );
     }
 
+    // ----- only for checking purpose ----
+    function testCanMintAndHaveABalance1() public {
+        deployer.mintManualNft(PUG);
+        assert(manualNft.balanceOf(USER) == 1);
+        assert(
+            keccak256(abi.encodePacked(PUG)) == 
+            keccak256(abi.encodePacked(manualNft.tokenURI(0)))
+        );
+
+        deployer.mintManualNft1();
+        assert(manualNft.balanceOf(DEFAULT_SENDER) == 1);
+        assert(
+            keccak256(abi.encodePacked(PUG)) == 
+            keccak256(abi.encodePacked(manualNft.tokenURI(0)))
+        );
+    }
+
 }
