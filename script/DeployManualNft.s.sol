@@ -20,8 +20,12 @@ contract DeployManualNft is Script {
     }
 
     // ----- only for checking purpose ----
-    function mintManualNft(string calldata PUG) public {
-        address USER = makeAddr("user");
+    function mintManualNft(string calldata PUG, address USER) public {
+        /*
+            // ----- can also use this -----
+            address USER = makeAddr("user");
+            vm.startBroadcast(USER);
+        */
         vm.startBroadcast(USER);
         manualNft.mintNFT(PUG);
         vm.stopBroadcast();

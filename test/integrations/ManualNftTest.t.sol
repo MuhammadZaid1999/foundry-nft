@@ -62,7 +62,7 @@ contract ManualNftTest is Test {
 
     // ----- only for checking purpose ----
     function testCanMintAndHaveABalance1() public {
-        deployer.mintManualNft(PUG);
+        deployer.mintManualNft(PUG, USER);
         assert(manualNft.balanceOf(USER) == 1);
         assert(
             keccak256(abi.encodePacked(PUG)) == 
