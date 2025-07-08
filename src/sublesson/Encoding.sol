@@ -49,7 +49,7 @@ contract Encoding {
     }
 
     function encodeAddress() public pure returns (bytes memory) {
-        bytes memory addr = abi.encode(address(123456));
+        bytes memory addr = abi.encode(address(5));
         return addr;
     }
 
@@ -96,7 +96,7 @@ contract Encoding {
     }
 
     function encodePackedAddress() public pure returns (bytes memory) {
-        bytes memory addr = abi.encodePacked(address(123456));
+        bytes memory addr = abi.encodePacked(address(10));
         return addr;
     }
 
@@ -166,7 +166,62 @@ contract Encoding {
         return someString;
     }
 
+    function decodeString2() public pure returns (string memory) {
+        string memory someString = abi.decode(encodeStrings2(), (string));
+        return someString;
+    }
+
+    function decodeNumber() public pure returns (uint8) {
+        uint8 someString = abi.decode(encodeNumber(), (uint8));
+        return someString;
+    }
+
+    function decodeAddress() public pure returns (address) {
+        address someString = abi.decode(encodeAddress(), (address));
+        return someString;
+    }
+
+    function decodeBoolean() public pure returns (bool) {
+        bool someString = abi.decode(encodeBoolean(true), (bool));
+        return someString;
+    }
+
+    function decodeByte() public pure returns (bytes4) {
+        bytes4 someString = abi.decode(encodeByte(), (bytes4));
+        return someString;
+    }
+
     // -------- packed decoding ------- //
+    function decodePackedString() public pure returns (string memory) {
+        string memory someString = abi.decode(encodePackedString(), (string));
+        return someString;
+    }
+
+    function decodePackedString1() public pure returns (string memory) {
+        string memory someString = abi.decode(encodePackedString1(), (string));
+        return someString;
+    }
+
+    function decodePackedStrings2() public pure returns (string memory) {
+        string memory someString = abi.decode(encodePackedStrings2(), (string));
+        return someString;
+    }
+
+    function decodePackedAddress() public pure returns (address) {
+        address addr = abi.decode(encodePackedAddress(), (address));
+        return addr;
+    }
+
+    function decodePackedBoolean(bool val) public pure returns (bool) {
+        bool addr = abi.decode(encodePackedBoolean(val), (bool));
+        return addr;
+    }
+
+    function decodePackedByte() public pure returns (bytes4) {
+        bytes4 addr = abi.decode(encodePackedByte(), (bytes4));
+        return addr;
+    }
+
 
     // -------- multi encoding ------- //
 
