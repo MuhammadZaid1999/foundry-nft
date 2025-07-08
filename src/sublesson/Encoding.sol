@@ -2,6 +2,11 @@
 pragma solidity ^0.8.18;
 
 contract Encoding {
+
+    struct User{
+        uint256 userId;
+        string name;
+    }
     
     // ---------- concatinating ----------- //
     
@@ -31,11 +36,11 @@ contract Encoding {
     }
 
     function encodeString1() public pure returns (bytes memory) {
-        return abi.encodePacked("Hi Mom! ", "Miss you!"); 
+        return abi.encode("Hi Mom! ", "Miss you!"); 
     }
 
     function encodeStrings2() public pure returns (bytes memory) {
-        return abi.encodePacked("Hi Mom!    ", "  Miss       you!      "); 
+        return abi.encode("Hi Mom!    ", "  Miss       you!      "); 
     }
 
     function encodeNumber() public pure returns (bytes memory) {
@@ -43,14 +48,37 @@ contract Encoding {
         return number;
     }
 
-    function encodeData() public pure returns (bytes memory) {
-        bytes memory number = abi.encode(50, "some string", true, address(100));
-        return number;
+    function encodeAddress() public pure returns (bytes memory) {
+        bytes memory addr = abi.encode(address(123456));
+        return addr;
     }
 
-    function encodeData1() public pure returns (bytes memory) {
-        bytes memory number = abi.encode(50, "some string", true, address(100));
-        return number;
+    function encodeBoolean(bool val) public pure returns (bytes memory) {
+        bytes memory addr = abi.encode(val);
+        return addr;
+    }
+
+    function encodeByte() public pure returns (bytes memory) {
+        bytes4 val = 0x54678456;
+        bytes memory addr = abi.encode(val);
+        return addr;
+    }
+
+    function encodeData() public pure returns (bytes memory) {
+        bytes1 num = 0x23;
+        bytes4 num1 = 0x12345678;
+        bytes memory byt = "ZAID1234565433i33i4QWEE@@@$$##";
+        string memory someStr = "some string";
+        bytes memory data = abi.encode(50, someStr, true, address(100), num, num1, byt, 0x546);
+        return data;
+    }
+
+    function encodeData2(int num, int[] memory nums) public pure returns (bytes memory) {
+        string[5] memory strData = ["1","2","3","4","5"];
+        bytes[3] memory bytesData = [bytes("0x12300041"), "0x546783453", "0x34567893"];
+        bytes2[3] memory bytesData1 = [bytes2(0x1234), 0x5123, 0x3456];
+        bytes memory data = abi.encode([1,2,3], ["1","2","3"],[0x1, 0x111, 0x4543344555], num, strData, nums, User(1, "name"), [User(1, "name"), User(2,"Name")], bytesData, bytesData1);
+        return data;
     }
 
     // ---------- packed encoding ----------- //
@@ -67,10 +95,62 @@ contract Encoding {
         return abi.encodePacked("Hi Mom!    ", "  Miss       you!      "); 
     }
 
-    // ---------- encoding using bytes ----------- //
+    function encodePackedAddress() public pure returns (bytes memory) {
+        bytes memory addr = abi.encodePacked(address(123456));
+        return addr;
+    }
+
+    function encodePackedBoolean(bool val) public pure returns (bytes memory) {
+        bytes memory addr = abi.encodePacked(val);
+        return addr;
+    }
+
+    function encodePackedByte() public pure returns (bytes memory) {
+        bytes4 val = 0x54678456;
+        bytes memory addr = abi.encodePacked(val);
+        return addr;
+    }
+
+    function encodePackedData() public pure returns (bytes memory) {
+        bytes1 num = 0x23;
+        bytes4 num1 = 0x12345678;
+        bytes memory byt = "ZAID1234565433i33i4QWEE@@@$$##";
+        bytes memory data = abi.encodePacked("some string", true, address(100), num, num1, byt);
+        return data;
+    }
+
+    function encodePackedData2(int num, int[] memory nums) public pure returns (bytes memory) {
+        bytes2[3] memory bytesData1 = [bytes2(0x1234), 0x5123, 0x3456];
+        bytes memory data = abi.encodePacked([1,2,3],[0x1, 0x111, 0x4543344555], num, nums, bytesData1);
+        return data;
+    }
+
+    // ---------- encoding string using bytes ----------- //
 
     function encodeStringBytes() public pure returns (bytes memory) {
-        bytes memory someString = bytes("some string");
+        bytes memory someString = bytes("some string!");
+        return someString;
+    }
+
+    function encodeStringBytes1() public pure returns (bytes memory) {
+        bytes memory someString = bytes("some string!    Hello!     World.");
+        return someString;
+    }
+
+    // ---------- decoding string using bytes ----------- //
+
+    function decodeStringBytes() public pure returns (string memory) {
+        string memory someString = string(encodeStringBytes());
+        return someString;
+    }
+
+    function decodeStringBytes1() public pure returns (string memory) {
+        string memory someString = string(encodeStringBytes1());
+        return someString;
+    }
+
+    function decodeStringBytes2() public pure returns (string memory) {
+        string memory someString = string.concat(string(encodeStringBytes()), string(encodeStringBytes1()));
         return someString;
     }
 
