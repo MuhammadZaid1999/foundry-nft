@@ -171,14 +171,14 @@ contract Encoding {
         bytes4 num1 = 0x12345678;
         bytes memory byt = "ZAID1234565433i33i4QWEE@@@$$##";
         string memory someStr = "some string";
-        bytes memory data = abi.encode(50, someStr, true, address(100), num, num1, byt, "zaidi", bytes2(0x1234), bytes("0x12345"));
+        bytes memory data = abi.encode(50, someStr, true, address(100), num, num1, byt, "zaidi", bytes2(0x1234), hex"1234abcd");
         return data;
     }
 
     function encodeData2() public pure returns (bytes memory) {
         int[4] memory nums = [int(1),2,4,5];
         string[5] memory strData = ["1","2","3","4","5"];
-        bytes[3] memory bytesData = [bytes("0x12300041"), "0x546783453", "0x34567893"];
+        bytes[3] memory bytesData = [bytes(hex"12300041"), hex"54683453", hex"34567893"];
         bytes2[3] memory bytesData1 = [bytes2(0x1234), 0x5123, 0x3456];
         User memory user = User(1, "aaaa");
         User[2] memory user1 = [User(1, "bbbb"), User(2,"cccc")];
@@ -187,7 +187,7 @@ contract Encoding {
     }
 
     function encodeData3() public pure returns (bytes memory) {
-        bytes memory data = abi.encode(["1","2","3","4","5"], [1,2,4,5], User(1, "aaaa"), [User(1, "bbbb"), User(2,"cccc")], [bytes("0x12300041"), "0x546783453", "0x34567893"], [bytes2(0x1234), 0x5123, 0x3456]);
+        bytes memory data = abi.encode(["1","2","3","4","5"], [1,2,4,5], User(1, "aaaa"), [User(1, "bbbb"), User(2,"cccc")], [bytes(hex"12300041"), hex"54678345", hex"34567893"], [bytes2(0x1234), 0x5123, 0x3456]);
         return data;
     }
 
@@ -207,9 +207,9 @@ contract Encoding {
         strDatas.push("1");
         strDatas.push("1");
 
-        bytesDatas.push("0x12300040");
-        bytesDatas.push("0x12300041");
-        bytesDatas.push("0x12300042");
+        bytesDatas.push(hex"12300040");
+        bytesDatas.push(hex"12300041");
+        bytesDatas.push(hex"12300042");
         
         bytesDatas1.push(0x1234);
         bytesDatas1.push(0x5123);
