@@ -3,6 +3,8 @@ pragma solidity ^0.8.18;
 
 contract Encoding {
 
+    bytes public b1 = hex"ABCD12345678";
+
     struct User{
         uint256 userId;
         string name;
@@ -26,6 +28,10 @@ contract Encoding {
 
     function combineStrings3(string memory someString) public pure returns (string memory) {
         return string.concat("Hi Mom! ", "Miss you!", "I love you!", "Hello!    ", someString); 
+    }
+
+    function combineBytes() public pure returns (bytes memory) {
+        return bytes.concat(hex"ACBC123c", hex"234512AE", hex"12345FCABE"); 
     }
 
     // ---------- encoding ----------- //  
