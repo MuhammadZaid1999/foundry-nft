@@ -93,7 +93,7 @@ contract Encoding {
     // ---------- encoding string using bytes ----------- //
 
     function encodeStringBytes() public pure returns (bytes memory) {
-        bytes memory someString = bytes("some string!");
+        bytes memory someString = bytes("some string");
         return someString;
     }
 
@@ -175,7 +175,7 @@ contract Encoding {
     function encodeData() public pure returns (bytes memory) {
         bytes1 num = 0x23;
         bytes4 num1 = 0x12345678;
-        bytes memory byt = "ZAID1234565433i33i4QWEE@@@$$##";
+        bytes memory byt = hex"ADCE1234e1cb";
         string memory someStr = "some string";
         bytes memory data = abi.encode(50, someStr, true, address(100), num, num1, byt, "zaidi", bytes2(0x1234), hex"1234abcd");
         return data;
