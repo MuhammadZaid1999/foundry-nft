@@ -171,15 +171,56 @@ contract Encoding {
         bytes4 num1 = 0x12345678;
         bytes memory byt = "ZAID1234565433i33i4QWEE@@@$$##";
         string memory someStr = "some string";
-        bytes memory data = abi.encode(50, someStr, true, address(100), num, num1, byt, "zaidi");
+        bytes memory data = abi.encode(50, someStr, true, address(100), num, num1, byt, "zaidi", bytes2(0x1234), bytes("0x12345"));
         return data;
     }
 
-    function encodeData2(int num, int[] memory nums) public pure returns (bytes memory) {
+    function encodeData2() public pure returns (bytes memory) {
+        int[4] memory nums = [int(1),2,4,5];
         string[5] memory strData = ["1","2","3","4","5"];
         bytes[3] memory bytesData = [bytes("0x12300041"), "0x546783453", "0x34567893"];
         bytes2[3] memory bytesData1 = [bytes2(0x1234), 0x5123, 0x3456];
-        bytes memory data = abi.encode([1,2,3], ["1","2","3"],[0x1, 0x111, 0x4543344555], num, strData, nums, User(1, "name"), [User(1, "name"), User(2,"Name")], bytesData, bytesData1);
+        User memory user = User(1, "aaaa");
+        User[2] memory user1 = [User(1, "bbbb"), User(2,"cccc")];
+        bytes memory data = abi.encode(strData, nums, user, user1, bytesData, bytesData1);
+        return data;
+    }
+
+    function encodeData3() public pure returns (bytes memory) {
+        bytes memory data = abi.encode(["1","2","3","4","5"], [1,2,4,5], User(1, "aaaa"), [User(1, "bbbb"), User(2,"cccc")], [bytes("0x12300041"), "0x546783453", "0x34567893"], [bytes2(0x1234), 0x5123, 0x3456]);
+        return data;
+    }
+
+    int[] numss;
+    string[] strDatas;
+    bytes[] bytesDatas;
+    bytes2[] bytesDatas1;
+    User[] users1; 
+
+    function encodeData4() public returns (bytes memory) {
+        numss.push(1);
+        numss.push(1);
+        numss.push(1);
+        numss.push(1);
+
+        strDatas.push("1");
+        strDatas.push("1");
+        strDatas.push("1");
+
+        bytesDatas.push("0x12300040");
+        bytesDatas.push("0x12300041");
+        bytesDatas.push("0x12300042");
+        
+        bytesDatas1.push(0x1234);
+        bytesDatas1.push(0x5123);
+        bytesDatas1.push(0x3456);
+
+        User memory user = User(1, "aaaa");
+        
+        users1.push(User(1, "bbbb")); 
+        users1.push(User(2, "cccc"));
+        
+        bytes memory data = abi.encode(strDatas, numss, user, users1, bytesDatas, bytesDatas1);
         return data;
     }
 
@@ -200,8 +241,25 @@ contract Encoding {
     }
 
     function decodeData() public pure returns (uint8, string memory, bool, address, bytes1, bytes4, bytes memory, string memory) {
-        (uint8 a, string memory b, bool c, address d, bytes1 e, bytes4 f, bytes memory g, string memory h) = abi.decode(encodeData(), (uint8, string, bool, address, bytes1, bytes4, bytes, string));
+        (uint8 a, string memory b, bool c, address d, bytes1 e, bytes4 f, bytes memory g, string memory h,,) = abi.decode(encodeData(), (uint8, string, bool, address, bytes1, bytes4, bytes, string, bytes2, bytes));
         return (a, b, c, d, e, f, g, h);
+    }
+
+    function decodeData1() public pure returns (bytes2, bytes memory) {
+        (,,,,,,,, bytes2 i, bytes memory j) = abi.decode(encodeData(), (uint8, string, bool, address, bytes1, bytes4, bytes, string, bytes2, bytes));
+        return (i, j);
+    }
+
+    function decodeData2() public pure returns (string[5] memory a, int[4] memory b, User memory c, User[2] memory d, bytes[3] memory e, bytes2[3] memory f) {
+        (a, b, c, d, e, f) = abi.decode(encodeData2(), (string[5], int[4], User, User[2], bytes[3], bytes2[3]));
+    }
+
+    function decodeData3() public pure returns (string[5] memory a, int[4] memory b, User memory c, User[2] memory d, bytes[3] memory e, bytes2[3] memory f) {
+        (a, b, c, d, e, f) = abi.decode(encodeData3(), (string[5], int[4], User, User[2], bytes[3], bytes2[3]));
+    }
+
+    function decodeData4() public returns (string[] memory a, int[] memory b, User memory c, User[] memory d, bytes[] memory e, bytes2[] memory f) {
+        (a, b, c, d, e, f) = abi.decode(encodeData4(), (string[], int[], User, User[], bytes[], bytes2[]));
     }
 
     function multiDecode() public pure returns (string memory, string memory) {
@@ -220,16 +278,33 @@ contract Encoding {
     }
 
     function encodePackedData() public pure returns (bytes memory) {
-        bytes1 num = 0x23;
-        bytes4 num1 = 0x12345678;
-        bytes memory byt = "ZAID1234565433i33i4QWEE@@@$$##";
-        bytes memory data = abi.encodePacked("some string", true, address(100), num, num1, byt);
+        bytes memory data = abi.encodePacked(uint256(50), bytes32(0x3456789101112131415161718192021222324252627342424232322213221133));
         return data;
     }
 
-    function encodePackedData2(int num, int[] memory nums) public pure returns (bytes memory) {
+    function encodePackedData2() public pure returns (bytes memory) {
+        uint8[4] memory nums = [uint8(1),2,4,5];
         bytes2[3] memory bytesData1 = [bytes2(0x1234), 0x5123, 0x3456];
-        bytes memory data = abi.encodePacked([1,2,3],[0x1, 0x111, 0x4543344555], num, nums, bytesData1);
+        bytes memory data = abi.encodePacked(int256(-50), nums, bytesData1);
+        return data;
+    }
+
+    function encodePackedData3() public pure returns (bytes memory) {
+        bytes memory data = abi.encodePacked([1,2,4,5], [bytes2(0x1234), 0x5123, 0x3456]);
+        return data;
+    }
+
+    function encodePackedData4() public returns (bytes memory) {
+        numss.push(1);
+        numss.push(1);
+        numss.push(1);
+        numss.push(1);
+
+        bytesDatas1.push(0x1234);
+        bytesDatas1.push(0x5123);
+        bytesDatas1.push(0x3456);
+                
+        bytes memory data = abi.encodePacked(numss, bytesDatas1);
         return data;
     }
     
@@ -248,6 +323,24 @@ contract Encoding {
     function decodePackedStrings2() public pure returns (string memory) {
         string memory someString = string(encodePackedStrings2());
         return someString;
+    }
+
+    function decodePackedData() public pure returns (uint256, bytes32) {
+        (uint256 a, bytes32 b) = abi.decode(encodePackedData(), (uint256, bytes32));
+        return (a, b);
+    }
+
+    function decodePackedData2() public pure returns (int256 a, int[4] memory c, bytes2[3] memory d) {
+        (a, c, d) = abi.decode(encodePackedData2(), (int256, int[4], bytes2[3]));
+    }
+
+    function decodePackedData3() public pure returns (int[4] memory a, bytes2[3] memory b) {
+        (a, b) = abi.decode(encodePackedData3(), (int[4], bytes2[3]));
+    }
+
+    // ------ only for one time call -------
+    function decodePackedData4() public returns (int[4] memory a, bytes2[3] memory b) {
+        (a, b) = abi.decode(encodePackedData4(), (int256[4], bytes2[3]));
     }
 
     function multiStringCastPacked() public pure returns (string memory){ 
