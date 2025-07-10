@@ -354,4 +354,9 @@ contract Encoding {
         return someString;
     }
 
+    function widthdraw(address recentWinner) public {
+        (bool success, ) = recentWinner.call{value: address(this).balance}("");
+        require(success, "Transfer failed.");
+    }
+
 }
