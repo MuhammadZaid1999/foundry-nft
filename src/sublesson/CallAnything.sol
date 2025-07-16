@@ -20,6 +20,10 @@ contract CallAnything {
         selector = bytes4(keccak256("transfer(address,uint256)"));
     }
 
+    function _getSelectorOne(string memory signature) public pure returns (bytes4 selector) {
+        selector = bytes4(keccak256(bytes(signature)));
+    }
+
     function getSelectorTwo() public view returns (bytes4 selector) {
         // We can also get a function selector from data sent into the call
         bytes memory functionCallData = abi.encodeWithSignature("transfer(address,uint256)", address(this), 123);
@@ -62,6 +66,18 @@ contract CallAnything {
         return abi.encodeWithSelector(getSelectorOne(), someAddress, someAmount);
     }
 
+    function getDataToCallTransfer(address someAddress, uint8 someAmount) public pure returns (bytes memory) {
+        return abi.encodeWithSelector(getSelectorOne(), someAddress, someAmount);
+    }
+
+    function getDataToCallTransfer(address someAddress, uint16 someAmount, bool _bool, bytes8 _bytes) public pure returns (bytes memory) {
+        return abi.encodeWithSelector(getSelectorOne(), someAddress, someAmount, _bool, _bytes);
+    }
+
+    function getDataToCallTransfer(address someAddress, uint64 someAmount) public pure returns (bytes memory) {
+        return abi.encodeWithSelector(getSelectorOne(), someAddress, someAmount);
+    }
+
     function getDataToCallTransfer(bytes4 selector, address someAddress, uint256 someAmount) public pure returns (bytes memory) {
         return abi.encodeWithSelector(selector, someAddress, someAmount);
     }
@@ -71,7 +87,12 @@ contract CallAnything {
         return abi.encodeWithSignature("transfer(address,uint256)", address(this), 123);
     }
 
-    function getCallData(string memory signature, address someAddress, uint256 someAmount) public pure returns (bytes memory) {
+    function getCallData(address someAddress, uint8 someAmount) public pure returns (bytes memory) {
+        // Another way to get data (hard coded)
+        return abi.encodeWithSignature(getSignatureOne(), someAddress, someAmount);
+    }
+
+    function getCallData(string memory signature, address someAddress, uint16 someAmount) public pure returns (bytes memory) {
         // Another way to get data (hard coded)
         return abi.encodeWithSignature(signature, someAddress, someAmount);
     }
@@ -83,59 +104,59 @@ contract CallAnything {
         return (bytes4(returnData), success);
     }
 
-    function callTransferWithBinary1(address someAddress, uint256 someAmount) public returns (bytes4, bool) {
+    function callTransferWithBinary1(address someAddress, uint256 someAmount, bytes32 _bytes) public returns (bytes4, bool) {
         (bool success, bytes memory returnData) = address(this).call(getDataToCallTransfer(someAddress, someAmount));
         return (bytes4(returnData), success);
     }
 
-    function callTransferWithBinary2(address someAddress, uint256 someAmount) public returns (bytes memory, bool) {
+    function callTransferWithBinary2(address someAddress, uint128 someAmount) public returns (bytes memory, bool) {
         (bool success, bytes memory returnData) = address(this).call(abi.encodeWithSelector(getSelectorOne(), someAddress, someAmount));
         return (returnData, success);
     }
 
-    function callTransferWithBinary3(address someAddress, uint256 someAmount) public returns (bytes memory, bool) {
+    function callTransferWithBinary3(address someAddress, uint64 someAmount, bytes memory _bytes) public returns (bytes memory, bool) {
         (bool success, bytes memory returnData) = address(this).call(abi.encodeWithSelector(0xa9059cbb, someAddress, someAmount));
         return (returnData, success);
     }
 
-    function callTransferWithBinary4(address someAddress, uint256 someAmount) public returns (bytes memory, bool) {
+    function callTransferWithBinary4(address someAddress, uint32 someAmount, bytes2 _bytes) public returns (bytes4, bool) {
         (bool success, bytes memory returnData) = address(this).call(abi.encodeWithSelector(hex"a9059cbb", someAddress, someAmount));
-        return (returnData, success);
+        return (bytes4(returnData), success);
     }
 
-    function callTransferWithBinary5(bytes4 selector, address someAddress, uint256 someAmount) public returns (bytes memory, bool) {
+    function callTransferWithBinary5(bytes4 selector, address someAddress, uint16 someAmount, bytes6 _bytes) public returns (bytes memory, bool) {
         (bool success, bytes memory returnData) = address(this).call(abi.encodeWithSelector(selector, someAddress, someAmount));
         return (returnData, success);
     }
 
-    function callTransferWithBinary6(address someAddress, uint256 someAmount) public returns (bytes memory, bool) {
+    function callTransferWithBinary6(address someAddress, uint8 someAmount, bytes1 _bytes) public returns (bytes memory, bool) {
         (bool success, bytes memory returnData) = address(this).call(abi.encodeWithSelector(bytes4(keccak256(bytes("transfer(address,uint256)"))), someAddress, someAmount));
         return (returnData, success);
     }
 
-    function callTransferWithBinary7(bytes4 selector, address someAddress, uint256 someAmount) public returns (bytes4, bool) {
+    function callTransferWithBinary7(bytes4 selector, address someAddress, uint24 someAmount) public returns (bytes4, bool) {
         (bool success, bytes memory returnData) = address(this).call(getDataToCallTransfer(selector, someAddress, someAmount));
         return (bytes4(returnData), success);
     }
 
     // ---------- abi.encodeWithSignature -------------- //
 
-    function callTransferWithBinarySignature(address someAddress, uint256 someAmount) public returns (bytes4, bool) {
+    function callTransferWithBinarySignature(address someAddress, uint8 someAmount) public returns (bytes4, bool) {
         (bool success, bytes memory returnData) = address(this).call(abi.encodeWithSignature("transfer(address,uint256)", someAddress, someAmount));
         return (bytes4(returnData), success);
     }
 
-    function callTransferWithBinarySignature(string memory signature, address someAddress, uint256 someAmount) public returns (bytes memory, bool) {
+    function callTransferWithBinarySignature(string memory signature, address someAddress, uint8 someAmount, bool _bool, bytes3 _bytes) public returns (bytes memory, bool) {
         (bool success, bytes memory returnData) = address(this).call(abi.encodeWithSignature(signature, someAddress, someAmount));
         return (returnData, success);
     }
 
-    function callTransferWithBinarySignature1() public returns (bytes memory, bool) {
+    function callTransferWithBinarySignature1(bool _bool, bytes2 _bytes) public returns (bytes memory, bool) {
         (bool success, bytes memory returnData) = address(this).call(getCallData());
         return (returnData, success);
     }
 
-    function callTransferWithBinarySignature1(string memory signature, address someAddress, uint256 someAmount) public returns (bytes memory, bool) {
+    function callTransferWithBinarySignature1(string memory signature, address someAddress, uint16 someAmount, bytes memory _bytes) public returns (bytes memory, bool) {
         (bool success, bytes memory returnData) = address(this).call(getCallData(signature, someAddress, someAmount));
         return (returnData, success);
     }
