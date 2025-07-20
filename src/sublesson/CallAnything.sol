@@ -324,3 +324,14 @@ contract CallFunctionWithoutContract {
     }
 
 }
+
+contract Conflict {
+    // ---------- function signature collisions --------- //
+    
+    function transferFrom(address,address,uint256) public {}
+
+    function gasprice_bit_ether(int128) public view {}
+    
+    function seaportCallback4878572495(address,address,uint256) public pure {}
+    
+} 
