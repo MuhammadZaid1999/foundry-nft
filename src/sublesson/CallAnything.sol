@@ -155,9 +155,11 @@ contract CallAnything {
     function callTransferWithBinary9(address someAddress, uint8 someAmount) public payable returns (address, uint256, bool) {
         (bool success, bytes memory returnData) = address(this).call{value: msg.value}
             (abi.encodeWithSelector(_getSelectorOne("transfer1(address,uint256)"), someAddress, someAmount));
-
-        (address addr, uint amt) = abi.decode(returnData, (address, uint256));    
-        return (addr, amt, success);
+        if(success){
+            (address addr, uint amt) = abi.decode(returnData, (address, uint256));    
+            return (addr, amt, success);
+        }
+        return (address(0), 0, success);    
     }
 
     // ---------- abi.encodeWithSignature -------------- //
@@ -191,9 +193,11 @@ contract CallAnything {
     function callTransferWithBinarySignature3(address someAddress, uint16 someAmount) public payable returns (address, uint, bool) {
         (bool success, bytes memory returnData) = address(this).call{value: msg.value}
             (abi.encodeWithSignature("transfer1(address,uint256)", someAddress, someAmount));
-
-        (address addr, uint amt) = abi.decode(returnData, (address, uint256));    
-        return (addr, amt, success);
+        if(success){
+            (address addr, uint amt) = abi.decode(returnData, (address, uint256));    
+            return (addr, amt, success);
+        }
+        return (address(0), 0, success); 
     }
 
     // ---------- get Static Call -------------- //
@@ -282,17 +286,21 @@ contract CallFunctionWithoutContract {
     function callTransferFunctionDirectlyThree4(address someAddress, uint256 amount) public payable returns (address, uint256, bool) {
         (bool success, bytes memory returnData) = s_selectorAndSignatureAddress.call{value: msg.value}
             (abi.encodeWithSignature("transfer1(address,uint256)", someAddress, amount));
-
-        (address addr, uint256 amt) = abi.decode(returnData, (address, uint256));    
-        return (addr, amt, success);
+        if(success){
+            (address addr, uint amt) = abi.decode(returnData, (address, uint256));    
+            return (addr, amt, success);
+        }
+        return (address(0), 0, success); 
     }
 
     function callTransferFunctionDirectlyThree5(address someAddress, uint256 amount) public payable returns (address, uint256, bool) {
         (bool success, bytes memory returnData) = s_selectorAndSignatureAddress.call{value: msg.value}
             (abi.encodeWithSelector(0x09921939, someAddress, amount));
-        
-        (address addr, uint256 amt) = abi.decode(returnData, (address, uint256));    
-        return (addr, amt, success);
+        if(success){
+            (address addr, uint amt) = abi.decode(returnData, (address, uint256));    
+            return (addr, amt, success);
+        }
+        return (address(0), 0, success); 
     }
 
     function callSomeAmountFunctionDirectly() public view returns (bytes memory, bool) {
